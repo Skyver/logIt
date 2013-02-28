@@ -1,0 +1,12 @@
+<resources>
+
+    <string name="app_name">LogIt</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_log_it">LogIt</string>
+    <string name="title_activity_new_exercise">Add New Exercise</string>
+    <string name="hint_newEx_name">Exercise name</string>
+    <string name="hint_newEx_desc">Exercise description</string>
+    <string name="button_newEx_submit">Submit</string>
+
+</resources>
