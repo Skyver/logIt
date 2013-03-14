@@ -8,5 +8,11 @@
     <string name="hint_newEx_name">Exercise name</string>
     <string name="hint_newEx_desc">Exercise description</string>
     <string name="button_newEx_submit">Submit</string>
-
+    <string name="title_activity_new_metric">NewMetric</string>
+    <string name="hint_newMt_name">Metric name</string>
+    <string name="hint_newMt_value">Initial value</string>
+    <string name="button_newMt_submit">Add Metric</string>
+    <string name="button_overall_cancel">Cancel</string>
+    <string name="title_activity_update_metric">UpdateMetric</string>
+	<string name="button_mt_update">Update</string>
 </resources>

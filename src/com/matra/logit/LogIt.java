@@ -1,15 +1,14 @@
 package com.matra.logit;
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
+
+import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
 
 
 
-public class LogIt extends SherlockFragmentActivity{
+public class LogIt extends Activity{
 
 	public static final String ID_EXERCISELIST = "EXERCISELIST";
 	public static final String ID_EXERCISEDETAIL = "EXERCISEDETAIL";
@@ -24,7 +23,7 @@ public class LogIt extends SherlockFragmentActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.activity_log_it, menu);
+        getMenuInflater().inflate(R.menu.activity_log_it, menu);
         return true;
     }
     

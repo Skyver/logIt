@@ -4,7 +4,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="10"
+        android:minSdkVersion="15"
         android:targetSdkVersion="15" />
 
     <application
@@ -22,14 +22,22 @@
         </activity>
         <activity
             android:name=".NewExercise"
-            android:label="@string/title_activity_new_exercise" 
-            android:theme="@style/Theme.Sherlock.Light.Dialog"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:label="@string/title_activity_new_exercise"
+            android:parentActivityName="com.matra.LogIt"
+            android:theme="@android:style/Theme.Holo.Light.Dialog" >
+        </activity>
+        <activity
+            android:name=".NewMetric"
+            android:label="@string/title_activity_new_metric"
+            android:parentActivityName="com.matra.LogIt"
+            android:theme="@android:style/Theme.Holo.Light.Dialog" >
+        </activity>
+        <activity
+            android:name=".UpdateMetric"
+            android:label="@string/title_activity_update_metric" 
+            android:parentActivityName="com.matra.LogIt"
+            android:theme="@android:style/Theme.Holo.Light.Dialog" >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

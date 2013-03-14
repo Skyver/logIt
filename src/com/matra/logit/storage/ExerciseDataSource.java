@@ -1,9 +1,7 @@
 package com.matra.logit.storage;
 
-import java.sql.SQLXML;
-import java.util.ArrayList;
-import java.util.List;
 
+import java.util.ArrayList;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -18,6 +16,13 @@ public class ExerciseDataSource
 		{SqliteHelper.EXX_COLUMN_ID
 			, SqliteHelper.EXX_COLUMN_EXNAME 
 			, SqliteHelper.EXX_COLUMN_EXDESC};
+	
+	private String[] allMXXTableColumns = 
+		{SqliteHelper.MXX_COLUMN_ID
+			, SqliteHelper.MXX_COLUMN_OWNER_ID
+			, SqliteHelper.MXX_COLUMN_NAME
+			, SqliteHelper.MXX_COLUMN_VALUE
+		};
 	
 	
 	public ExerciseDataSource(Context context)
@@ -49,6 +54,8 @@ public class ExerciseDataSource
 		long id = exercise.getId();
 		System.out.println("Comment deleted with id: " + id);
 		database.delete(SqliteHelper.TABLE_EXERCISES_NAME, SqliteHelper.EXX_COLUMN_ID + " = " + id, null);
+		database.delete(SqliteHelper.TABLE_METRICS_NAME, SqliteHelper.MXX_COLUMN_OWNER_ID + " = " + id, null); 
+		//Metrics belonging to the deleted exercise should not remain
 	}
 	
 	public ArrayList<Exercise> getAllExercises()
@@ -59,11 +66,52 @@ public class ExerciseDataSource
 		while(!cursor.isAfterLast())
 		{
 			Exercise ex = cursorToExercise(cursor);
+			ex.addAllMetrics(getAllOwnedMetrics(ex.getId()));
 			exercises.add(ex);
 			cursor.moveToNext();
 		}
 		cursor.close();
 		return exercises;
+	} 
+	
+	public ArrayList<Metric> getAllOwnedMetrics(long ownerID)
+	{
+		ArrayList<Metric> metrics = new ArrayList<Metric>();
+		String whereClause = SqliteHelper.MXX_COLUMN_OWNER_ID + " = " + ownerID;
+		Cursor cursor = database.query(SqliteHelper.TABLE_METRICS_NAME, allMXXTableColumns, whereClause, null, null, null, null);
+		cursor.moveToFirst();
+		while(!cursor.isAfterLast())
+		{
+			Metric mt = cursorToMetric(cursor);
+			metrics.add(mt);
+			cursor.moveToNext();
+		}
+		cursor.close();
+		return metrics;
+	}
+	
+	public long addMetricToExercise(Metric metric)
+	{
+		ContentValues values = new ContentValues();
+		values.put(SqliteHelper.MXX_COLUMN_OWNER_ID, metric.getOwnerId());
+		values.put(SqliteHelper.MXX_COLUMN_NAME, metric.getName());
+		values.put(SqliteHelper.MXX_COLUMN_VALUE, metric.getValue());
+		long id = database.insert(SqliteHelper.TABLE_METRICS_NAME, null, values);
+		return id;
+	}
+	
+	public void removeMetricFromExercise(Metric metric)
+	{
+		System.out.println("Metric " + metric.getId()+ " deleted from " + metric.getOwnerId());
+		database.delete(SqliteHelper.TABLE_METRICS_NAME, SqliteHelper.MXX_COLUMN_ID + " = " + metric.getId(), null);
+	}
+	
+	public void updateMetricValue(long metricID, int metricValue)
+	{
+		ContentValues values = new ContentValues();
+		values.put(SqliteHelper.MXX_COLUMN_VALUE, metricValue);
+		int clx = database.update(SqliteHelper.TABLE_METRICS_NAME, values, SqliteHelper.MXX_COLUMN_ID + " = " + metricID, null);
+		System.out.println(clx + " columns were updated for the metric " + metricID);
 	}
 	
 	private Exercise cursorToExercise(Cursor cursor)
@@ -75,6 +123,17 @@ public class ExerciseDataSource
 		ex.setId(id);
 		return ex;
 		
+	}
+	
+	private Metric cursorToMetric(Cursor cursor)
+	{
+		long id = cursor.getLong(0);
+		long ownerID = cursor.getLong(1);
+		String name = cursor.getString(2);
+		int value = cursor.getInt(3);
+		Metric mt = new Metric(ownerID, name, value);
+		mt.setId(id);
+		return mt;
 	}
 	
 }

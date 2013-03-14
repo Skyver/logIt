@@ -1,22 +1,23 @@
 package com.matra.logit;
 
 import android.app.Activity;
+import android.app.ListFragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockListFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+
 import com.matra.logit.interopServices.ExercisesManager;
 import com.matra.logit.storage.Exercise;
 
-public class ExerciseListFragment extends SherlockListFragment{
+public class ExerciseListFragment extends ListFragment{
 	
 	public static final String PREFS_NAME = "SETTINGS";
 	public static final String FIRST_TIME = "FIRST_TIME";
@@ -31,12 +32,12 @@ public class ExerciseListFragment extends SherlockListFragment{
 	public void onCreate (Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		exerciseManager = new ExercisesManager(this.getSherlockActivity());
+		exerciseManager = new ExercisesManager(this.getActivity());
 		activeIndex = -1;
 		checkFirstTime();
 		setHasOptionsMenu(true);
 		
-		setListAdapter(new ArrayAdapter<Exercise>(this.getSherlockActivity(),
+		setListAdapter(new ArrayAdapter<Exercise>(this.getActivity(),
 				android.R.layout.simple_list_item_activated_1, 
 				exerciseManager.getExercises()));
 	}
@@ -48,26 +49,28 @@ public class ExerciseListFragment extends SherlockListFragment{
     {
     	activeIndex = position;
     	Exercise exercise = (Exercise) l.getItemAtPosition(position);
-    	if(getSherlockActivity().getSupportFragmentManager().findFragmentByTag(LogIt.ID_EXERCISEDETAIL) == null)
+    	if(getActivity().getFragmentManager().findFragmentByTag(LogIt.ID_EXERCISEDETAIL) == null)
     	{
     		ExerciseDetailFragment fragment = new ExerciseDetailFragment();
-    		getSherlockActivity().getSupportFragmentManager().beginTransaction()
+    		getActivity().getFragmentManager().beginTransaction()
     					.add(R.id.containerDetails,fragment,LogIt.ID_EXERCISEDETAIL).show(fragment).commit();
     		fragment.setDisplayedExercise(exercise);
+    		fragment.setExerciseManager(exerciseManager);
     	}
     	else
     	{
-    		ExerciseDetailFragment fragment = (ExerciseDetailFragment) getSherlockActivity().getSupportFragmentManager()
+    		ExerciseDetailFragment fragment = (ExerciseDetailFragment) getActivity().getFragmentManager()
     																.findFragmentByTag(LogIt.ID_EXERCISEDETAIL);
     		fragment.setDisplayedExercise(exercise);
-    		getSherlockActivity().getSupportFragmentManager().beginTransaction().show(fragment).commit();
+    		fragment.setExerciseManager(exerciseManager);
+    		getActivity().getFragmentManager().beginTransaction().show(fragment).commit();
     	}
     	
     }
     
     private void checkFirstTime()
     {
-    	SharedPreferences settings = this.getSherlockActivity().getSharedPreferences(PREFS_NAME, 0);
+    	SharedPreferences settings = this.getActivity().getSharedPreferences(PREFS_NAME, 0);
     	boolean first_time = settings.getBoolean(FIRST_TIME, true);
     	if(first_time)
     	{
@@ -89,7 +92,7 @@ public class ExerciseListFragment extends SherlockListFragment{
     	{
 	    	case R.id.menu_add :
 	    		//Toast.makeText(this.getActivity(), "ADD", Toast.LENGTH_SHORT).show();
-	    		Intent intent = new Intent(getSherlockActivity(), NewExercise.class);
+	    		Intent intent = new Intent(getActivity(), NewExercise.class);
 	    		//getSherlockActivity().startActivity(intent);
 	    		startActivityForResult(intent, ADD_REQUEST_CODE);
 	    		return true;
@@ -101,9 +104,9 @@ public class ExerciseListFragment extends SherlockListFragment{
 	    		ArrayAdapter<Exercise> adapter = (ArrayAdapter<Exercise>) this.getListAdapter();
 	    		adapter.remove(target);
 	    		//Hide fragment for cleanliness and better UX
-	    		ExerciseDetailFragment fragment = (ExerciseDetailFragment) getSherlockActivity().getSupportFragmentManager()
+	    		ExerciseDetailFragment fragment = (ExerciseDetailFragment) getActivity().getFragmentManager()
 						.findFragmentByTag(LogIt.ID_EXERCISEDETAIL);
-	    		getSherlockActivity().getSupportFragmentManager().beginTransaction().hide(fragment).commit();
+	    		getActivity().getFragmentManager().beginTransaction().hide(fragment).commit();
 	    		
 	    		
 	    		return true;

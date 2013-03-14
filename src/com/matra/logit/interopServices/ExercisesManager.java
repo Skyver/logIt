@@ -7,6 +7,7 @@ import android.content.Context;
 
 import com.matra.logit.storage.Exercise;
 import com.matra.logit.storage.ExerciseDataSource;
+import com.matra.logit.storage.Metric;
 import com.matra.logit.storage.MockStorageService;
 
 public class ExercisesManager {
@@ -48,14 +49,43 @@ public class ExercisesManager {
 		Exercise defaultDeadlift = new Exercise("Deadlift", "The deadlift is a weight training exercise where a loaded barbell is lifted off the ground from a stabilized, bent over position.");
 		Exercise defaultBenchpress = new Exercise("Bench Press", "The bench press is an exercise of the upper body. While on their back, the person performing the bench press lowers a weight to the level of the chest, then pushes it back up until the arm is straight.");
 		//---
-		exerciseDatasource.addExercise(defaultPushup);
-		exerciseDatasource.addExercise(defaultRun);
-		exerciseDatasource.addExercise(defaultDeadlift);
-		exerciseDatasource.addExercise(defaultBenchpress);
+		long dpID = exerciseDatasource.addExercise(defaultPushup);
+		long rID = exerciseDatasource.addExercise(defaultRun);
+		long ddID = exerciseDatasource.addExercise(defaultDeadlift);
+		long bpID = exerciseDatasource.addExercise(defaultBenchpress);
+		//---
+		Metric dpReps = new Metric(dpID, "Repetitions", 15);
+		defaultPushup.addMetric(dpReps);
+		exerciseDatasource.addMetricToExercise(dpReps);
+		Metric rMeters = new Metric(rID, "Meters ran", 500);
+		defaultRun.addMetric(rMeters);
+		exerciseDatasource.addMetricToExercise(rMeters);
+		Metric ddKilos = new Metric(ddID, "Kilograms", 100);
+		defaultDeadlift.addMetric(ddKilos);
+		exerciseDatasource.addMetricToExercise(ddKilos);
+		Metric bpKilos = new Metric(bpID, "Kilograms", 100);
+		defaultBenchpress.addMetric(bpKilos);
+		exerciseDatasource.addMetricToExercise(bpKilos);
 		
 		//First run likely found an empty DB, update the list on control
 		cacheStorage = exerciseDatasource.getAllExercises();
-		//TODO
+
+	}
+	
+	public Metric addMetric(String name, int initialValue, long ownerID)
+	{
+		Metric newMetric = new Metric(ownerID, name, initialValue);
+		long id = exerciseDatasource.addMetricToExercise(newMetric);
+		newMetric.setId(id);
+		
+		for (Exercise ex : cacheStorage) {
+			if(ex.getId() == ownerID)
+			{
+				ex.addMetric(newMetric);
+			}
+		}
+		
+		return newMetric;
 	}
 	
 	public Exercise addNewExercise(String name, String desc)
@@ -71,6 +101,28 @@ public class ExercisesManager {
 	{
 		cacheStorage.remove(exercise);
 		exerciseDatasource.deleteExercise(exercise);
+	}
+	
+	public void removeMetric(Metric metric)
+	{
+		exerciseDatasource.removeMetricFromExercise(metric);
+		for(Exercise ex: cacheStorage)
+		{
+			if(ex.getId() == metric.getOwnerId())
+			{
+				ex.removeMetric(metric);
+			}
+		}
+		
+	}
+	
+	public void updateMetric(long metricID, int newValue)
+	{
+		if(metricID != -1)
+		{
+			exerciseDatasource.updateMetricValue(metricID, newValue);
+			cacheStorage = exerciseDatasource.getAllExercises();
+		}
 	}
 	
 	//signals the bottom layer that the app is on resumed state

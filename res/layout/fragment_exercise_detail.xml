@@ -19,10 +19,39 @@
     	android:layout_width="match_parent"
     	android:layout_height="wrap_content"    
     	android:gravity="center"
-    	android:text="FILL FILL FILL FILL"
+    	android:text=""
     	android:textSize="18dp"
     	android:layout_marginTop="3dp"
     	android:layout_marginBottom="3dp"
     />
+    
+    <ListView 
+        android:id="@+id/detailMetricList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+    />
+    
+    <View 
+        android:id="@+id/detailSeparatorBar"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="3dp"
+        android:background="@android:color/darker_gray"
+        />
+    
+    <Button 
+        android:id="@+id/detailButtonMetric"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="+"
+        android:layout_gravity="center"
+        style="?android:attr/borderlessButtonStyle"
+        />
 
 </LinearLayout>
