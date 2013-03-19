@@ -136,9 +136,9 @@ public class ExerciseDetailFragment extends Fragment
 			long id = data.getLongExtra(UpdateMetric.MDATA_ID, -1);
 			exerciseManager.updateMetric(id, value);
 			displayedExercise.updateMetric(id, value);
-			metricsListView.setAdapter(new MetricListAdapter(this, displayedExercise.getMetricList()));
+			
 		}
-		
+		metricsListView.setAdapter(new MetricListAdapter(this, displayedExercise.getMetricList()));
 		
 		super.onActivityResult(requestCode, resultCode, data);
 		
@@ -248,6 +248,7 @@ public class ExerciseDetailFragment extends Fragment
 			super(parent.getActivity());
 			this.parent = parent;
 			this.setOrientation(HORIZONTAL);
+			this.setPadding(toPix(5), toPix(20), toPix(5),toPix(20));
 			this.name = name;
 			this.value = value;
 			
@@ -262,6 +263,12 @@ public class ExerciseDetailFragment extends Fragment
 					return true;
 				}
 			});
+		}
+		
+		public int toPix(int dip)
+		{
+			final float scale = parent.getResources().getDisplayMetrics().density;
+			return (int) (dip * scale + 0.5f);
 		}
 		
 		public void setName(String name)
@@ -300,6 +307,13 @@ public class ExerciseDetailFragment extends Fragment
 		private void setAlternateView()
 		{
 			removeAllViews();
+			//premake bar
+			View bar = new View(parent.getActivity());
+			View bar1 = new View(parent.getActivity());
+			bar.setBackgroundColor(parent.getResources().getColor(android.R.color.holo_blue_dark));
+			bar1.setBackgroundColor(parent.getResources().getColor(android.R.color.holo_blue_dark));
+			LayoutParams barParams = new LinearLayout.LayoutParams(1, LayoutParams.MATCH_PARENT);
+			//---------
 			backButton = new TextView(parent.getActivity());
 			backButton.setText("Back");
 			backButton.setGravity(Gravity.CENTER);		
@@ -312,7 +326,9 @@ public class ExerciseDetailFragment extends Fragment
 			});
 			LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 33);
 			addView(backButton,params);
-			
+			//--------
+			addView(bar1,barParams);
+			//--------
 			updateButton = new TextView(parent.getActivity());
 			updateButton.setText("Update");
 			updateButton.setGravity(Gravity.CENTER);
@@ -324,7 +340,9 @@ public class ExerciseDetailFragment extends Fragment
 				}
 			});
 			addView(updateButton, params);
-			
+			//--------
+			addView(bar,barParams);
+			//--------
 			deleteButton = new TextView(parent.getActivity());
 			deleteButton.setText("Delete");
 			deleteButton.setGravity(Gravity.CENTER);
@@ -336,6 +354,7 @@ public class ExerciseDetailFragment extends Fragment
 				}
 			});
 			addView(deleteButton, params);
+			
 		}
 		
 		

@@ -27,4 +27,6 @@ public class LogIt extends Activity{
         return true;
     }
     
+
+    
 }
