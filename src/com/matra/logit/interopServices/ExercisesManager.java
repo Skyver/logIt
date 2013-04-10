@@ -40,7 +40,7 @@ public class ExercisesManager {
 		
 		return null;
 	}
-	
+
 	public void generateInitExercies()
 	{
 		//Default exercises to be stored in database. This exercises can be deleted by the user 
@@ -71,7 +71,7 @@ public class ExercisesManager {
 		cacheStorage = exerciseDatasource.getAllExercises();
 
 	}
-	
+
 	public Metric addMetric(String name, int initialValue, long ownerID)
 	{
 		Metric newMetric = new Metric(ownerID, name, initialValue);
@@ -115,12 +115,27 @@ public class ExercisesManager {
 		}
 		
 	}
-	
+	//TODO handle date
 	public void updateMetric(long metricID, int newValue)
 	{
 		if(metricID != -1)
 		{
-			exerciseDatasource.updateMetricValue(metricID, newValue);
+			//First, fetch the old value
+			int oldValue = 0;
+			outloop: //Labeling the outer loop
+			for(Exercise ex: cacheStorage)
+			{
+				for(Metric mt: ex.getMetricList())
+				{
+					if(mt.getId() == metricID)
+					{
+						oldValue = mt.getValue();
+						break outloop;
+					}
+				}
+			}
+			
+			exerciseDatasource.updateMetricValue(metricID, newValue, getTrend(oldValue, newValue));
 			cacheStorage = exerciseDatasource.getAllExercises();
 		}
 	}
@@ -137,4 +152,20 @@ public class ExercisesManager {
 		exerciseDatasource.close();
 	}
 
+	public static String getTrend(int old, int newValue)
+	{
+		if(old > newValue)
+		{
+			return Metric.TREND_DOWN;
+		}
+		else if (old < newValue)
+		{
+			return Metric.TREND_UP;
+		}
+		else
+		{
+			return Metric.TREND_EQUAL;
+		}
+	}
+	
 }

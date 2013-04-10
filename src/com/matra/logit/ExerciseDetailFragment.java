@@ -51,6 +51,7 @@ public class ExerciseDetailFragment extends Fragment
 		View result = inflater.inflate(R.layout.fragment_exercise_detail, container, false);
 		title = (TextView) result.findViewById(R.id.detailTitle);
 		description = (TextView) result.findViewById(R.id.detailDescription);
+		
 		metricsListView = (ListView) result.findViewById(R.id.detailMetricList);
 		
 		metricsListView.setLongClickable(true);
@@ -135,7 +136,7 @@ public class ExerciseDetailFragment extends Fragment
 			int value = data.getIntExtra(UpdateMetric.MDATA_VALUE, 0);
 			long id = data.getLongExtra(UpdateMetric.MDATA_ID, -1);
 			exerciseManager.updateMetric(id, value);
-			displayedExercise.updateMetric(id, value);
+			displayedExercise.updateMetric(id, value); 
 			
 		}
 		metricsListView.setAdapter(new MetricListAdapter(this, displayedExercise.getMetricList()));
@@ -186,12 +187,12 @@ public class ExerciseDetailFragment extends Fragment
 	
 	private class MetricListAdapter extends BaseAdapter
 	{
-		private ExerciseDetailFragment parent;
+		private ExerciseDetailFragment fParent;
 		private ArrayList<Metric> metricList;
 		
 		public MetricListAdapter(ExerciseDetailFragment parent, ArrayList<Metric> metrics)
 		{
-			this.parent = parent;
+			this.fParent = parent;
 			this.metricList = metrics;
 		}
 		
@@ -211,155 +212,64 @@ public class ExerciseDetailFragment extends Fragment
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			// TODO Auto-generated method stub
-			MetricView mv;
+			final Metric metric = metricList.get(position);
+			ViewHolder holder;
+			
 			if(convertView == null)
 			{
-				mv = new MetricView(this.parent, metricList.get(position).getName(), metricList.get(position).getValue());
-				mv.setMetricID(metricList.get(position).getId());
+				LayoutInflater li = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+				convertView = li.inflate(R.layout.metric_view_normal, parent, false);
+				holder = new ViewHolder();
+				holder.tvName = (TextView) convertView.findViewById(R.id.metricTitle);
+				holder.tvValue = (TextView) convertView.findViewById(R.id.metricValue);
+				holder.tvTrend = (TextView) convertView.findViewById(R.id.metricTrend);
+				holder.bUpdate = (Button) convertView.findViewById(R.id.buttonUpdateMetric);
+				holder.bDelete = (Button) convertView.findViewById(R.id.buttonDeleteMetric);
+				convertView.setTag(holder);
 			}
 			else
 			{
-				mv = (MetricView) convertView;
-				mv.setName(metricList.get(position).getName());
-				mv.setValue(metricList.get(position).getValue());
-				mv.setMetricID(metricList.get(position).getId());
+				holder = (ViewHolder) convertView.getTag();
 			}
-			return mv;
-		}
-		
-		
-	}
-	
-	private class MetricView extends LinearLayout
-	{
-		TextView title;
-		TextView number;
-		TextView backButton;
-		TextView updateButton;
-		TextView deleteButton;
-		ExerciseDetailFragment parent;
-		String name;
-		int value;
-		long metricID;
-		
-		public MetricView(ExerciseDetailFragment parent, String name, int value)
-		{
-			super(parent.getActivity());
-			this.parent = parent;
-			this.setOrientation(HORIZONTAL);
-			this.setPadding(toPix(5), toPix(20), toPix(5),toPix(20));
-			this.name = name;
-			this.value = value;
+			holder.tvName.setText(metric.getName());
+			holder.tvValue.setText(String.valueOf(metric.getValue()));
+			holder.tvTrend.setText(metric.getTrend()); //TODO icon instead
 			
-			this.setDefaultView();
-			
-			
-			this.setOnLongClickListener(new View.OnLongClickListener() {
-				
-				@Override
-				public boolean onLongClick(View v) {
-					setAlternateView();
-					return true;
-				}
-			});
-		}
-		
-		public int toPix(int dip)
-		{
-			final float scale = parent.getResources().getDisplayMetrics().density;
-			return (int) (dip * scale + 0.5f);
-		}
-		
-		public void setName(String name)
-		{
-			title.setText(name);
-		}
-		
-		public void setValue(int value)
-		{
-			number.setText(String.valueOf(value));
-		}
-		
-		public void setMetricID(long ID)
-		{
-			this.metricID = ID;
-		}
-		
-		private void setDefaultView()
-		{
-			removeAllViews();
-			title = new TextView(parent.getActivity());
-			title.setText(name);
-			LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 50);
-			addView(title, params);
-			
-			number = new TextView(parent.getActivity());
-			number.setText(String.valueOf(value));
-			LayoutParams paramsNum = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 50);
-			number.setGravity(Gravity.RIGHT);
-			
-			addView(number, paramsNum);
-			
-			
-		}
-		
-		private void setAlternateView()
-		{
-			removeAllViews();
-			//premake bar
-			View bar = new View(parent.getActivity());
-			View bar1 = new View(parent.getActivity());
-			bar.setBackgroundColor(parent.getResources().getColor(android.R.color.holo_blue_dark));
-			bar1.setBackgroundColor(parent.getResources().getColor(android.R.color.holo_blue_dark));
-			LayoutParams barParams = new LinearLayout.LayoutParams(1, LayoutParams.MATCH_PARENT);
-			//---------
-			backButton = new TextView(parent.getActivity());
-			backButton.setText("Back");
-			backButton.setGravity(Gravity.CENTER);		
-			backButton.setOnClickListener(new OnClickListener() {
+			holder.bUpdate.setOnClickListener( new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					setDefaultView();
+					fParent.callbackUpgradeMetric(metric.getId());
 					
 				}
 			});
-			LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, 33);
-			addView(backButton,params);
-			//--------
-			addView(bar1,barParams);
-			//--------
-			updateButton = new TextView(parent.getActivity());
-			updateButton.setText("Update");
-			updateButton.setGravity(Gravity.CENTER);
-			updateButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					setDefaultView();
-					parent.callbackUpgradeMetric(metricID);
-				}
-			});
-			addView(updateButton, params);
-			//--------
-			addView(bar,barParams);
-			//--------
-			deleteButton = new TextView(parent.getActivity());
-			deleteButton.setText("Delete");
-			deleteButton.setGravity(Gravity.CENTER);
-			deleteButton.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					setDefaultView();
-					parent.callbackDeleteMetric(metricID);
-				}
-			});
-			addView(deleteButton, params);
 			
+			holder.bDelete.setOnClickListener(new View.OnClickListener() {				
+				@Override
+				public void onClick(View v) {
+					fParent.callbackDeleteMetric(metric.getId());
+					
+				}
+			});
+
+			return convertView;
 		}
+		
+		
+	}
+	
+	static class ViewHolder
+	{
+		TextView tvName;
+		TextView tvValue;
+		TextView tvTrend;
+		Button bUpdate;
+		Button bDelete;
+		
+	}
 		
 		
 		
 	
-	}
+	
 	
 }

@@ -1,8 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    >
     
+    <LinearLayout 
+        android:id="@+id/back"
+        android:orientation="horizontal" 
+        android:tag="back"
+        style="@style/ListBackContent"
+    	>
+       
+        <Button 
+            android:id="@+id/buttonUpdateMetric"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="@string/button_mt_update"
+            android:layout_weight="50"
+            android:gravity="center"
+        />
+        
+        <View
+            android:id="@+id/dividerBar"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:background="?android:attr/dividerVertical" />
+        
+        <Button 
+            android:id="@+id/buttonDeleteMetric"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="Delete"
+            android:layout_weight="50"
+            android:gravity="center"
+         />
+        
+    </LinearLayout>
 
-</LinearLayout>
+    <LinearLayout 
+        android:id="@+id/front"
+        android:orientation="horizontal" 
+        android:tag="front"
+        style="@style/ListFrontContent"
+        >
+        
+        <TextView 
+            android:id="@+id/metricTitle"
+            android:layout_height="match_parent"
+            android:layout_width="0px"
+			android:layout_weight="50"
+            android:gravity="center"
+            style="@style/ListTitle"
+       	/>
+        
+        <TextView
+            android:id="@+id/metricValue"
+            android:layout_height="match_parent"
+            android:layout_width="0px"
+            android:layout_weight="30"
+            android:gravity="center|right"
+            android:paddingRight="@dimen/padding_default"
+            style="@style/ListTitle" 
+       	/>
+        
+        <TextView
+            android:id="@+id/metricTrend"
+            android:layout_height="match_parent"
+            android:layout_width="0px"
+            android:layout_weight="20"
+            android:gravity="center|right"
+            android:paddingRight="@dimen/padding_default"
+            style="@style/ListTitle" 
+       	/>
+        
+    </LinearLayout>
+    
+</FrameLayout>

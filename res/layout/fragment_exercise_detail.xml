@@ -25,16 +25,20 @@
     	android:layout_marginBottom="3dp"
     />
     
-    <ListView 
-        android:id="@+id/detailMetricList"
+    <com.fortysevendeg.android.swipelistview.SwipeListView
+    	xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    	android:id="@+id/detailMetricList"
+        android:listSelector="#00000000"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="9dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-    />
+        swipe:swipeFrontView="@+id/front"
+        swipe:swipeBackView="@+id/back"
+        swipe:swipeActionLeft="reveal"
+        swipe:swipeActionRight="dismiss"
+        swipe:swipeMode="both"
+        swipe:swipeCloseAllItemsWhenMoveList="true"
+        swipe:swipeOpenOnLongPress="true"        
+    />   
     
     <View 
         android:id="@+id/detailSeparatorBar"
@@ -42,7 +46,7 @@
         android:layout_height="1dp"
         android:layout_margin="3dp"
         android:background="@android:color/darker_gray"
-        />
+    />
     
     <Button 
         android:id="@+id/detailButtonMetric"

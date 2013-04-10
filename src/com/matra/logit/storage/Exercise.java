@@ -2,6 +2,8 @@ package com.matra.logit.storage;
 
 import java.util.ArrayList;
 
+import com.matra.logit.interopServices.ExercisesManager;
+
 public class Exercise {
 	
 	private String name;
@@ -56,7 +58,9 @@ public class Exercise {
 		{
 			if(m.getId() == id)
 			{
+				m.setTrend(ExercisesManager.getTrend(m.getValue(), value));
 				m.setValue(value);
+				m.setFormattedDate(ExerciseDataSource.getTodayDate());
 			}
 		}
 	}
