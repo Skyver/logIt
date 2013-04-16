@@ -12,7 +12,7 @@ import android.util.Log;
 public class SqliteHelper extends SQLiteOpenHelper
 {
 	public static final String DATABASE_NAME = "logit.db";
-	public static final int DATABASE_VERSION = 5;
+	public static final int DATABASE_VERSION = 6;
 	
 	// Exercises Table
 	
@@ -67,6 +67,29 @@ public class SqliteHelper extends SQLiteOpenHelper
 	
 	//-------------------------------------------------------------------------------------------
 	
+	// Personal Metrics Table
+	
+	public static final String TABLE_PMETRICS_NAME = "personalmetrics";
+	public static final String PMXX_COLUMN_ID = "_id";
+	public static final String PMXX_COLUMN_OWNER_ID = "_fkID";
+	public static final String PMXX_COLUMN_NAME = "_name";
+	public static final String PMXX_COLUMN_VALUE = "_value";
+	public static final String PMXX_COLUMN_TREND = "_trend";
+	public static final String PMXX_COLUMN_DATE = "_date";
+	
+	
+	public static final String CREATE_PMETRICS_TABLE = "create table " + TABLE_PMETRICS_NAME
+			+ "(" + PMXX_COLUMN_ID + " integer primary key autoincrement, "
+			+ PMXX_COLUMN_OWNER_ID + " integer not null, "
+			+ PMXX_COLUMN_NAME + " text not null, "
+			+ PMXX_COLUMN_VALUE + " integer not null, "
+			+ PMXX_COLUMN_TREND + " text not null, "
+			+ PMXX_COLUMN_DATE + " text not null"
+			+ ");" ;
+		
+		
+	
+	//-------------------------------------------------------------------------------------------
 	public SqliteHelper(Context context)
 	{
 		super(context,DATABASE_NAME,null,DATABASE_VERSION);
@@ -77,6 +100,7 @@ public class SqliteHelper extends SQLiteOpenHelper
 		database.execSQL(CREATE_EXERCISES_TABLE);
 		database.execSQL(CREATE_METRICS_TABLE);
 		database.execSQL(CREATE_PERSONALS_TABLE);
+		database.execSQL(CREATE_PMETRICS_TABLE);
 	}
 	
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
@@ -85,6 +109,7 @@ public class SqliteHelper extends SQLiteOpenHelper
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXERCISES_NAME);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_METRICS_NAME);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PERSONAL_NAME);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PMETRICS_NAME);
 		onCreate(db);
 	}
 	

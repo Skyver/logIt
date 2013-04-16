@@ -135,7 +135,7 @@ public class ExerciseDataSource
 		
 	}
 	
-	//TODO include date
+	
 	private Metric cursorToMetric(Cursor cursor)
 	{
 		long id = cursor.getLong(0);

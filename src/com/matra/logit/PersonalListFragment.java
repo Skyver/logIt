@@ -3,6 +3,7 @@ package com.matra.logit;
 import com.matra.logit.interopServices.PersonalInfoManager;
 import com.matra.logit.storage.DataItem;
 
+import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +20,7 @@ public class PersonalListFragment extends ListFragment {
 	
 	
 	public static final String FIRST_TIME_PERSONAL = "FIRST_TIME_PER";
+	public static final int ADD_REQUEST_CODE = 1;
 	
 	private int activeIndex;
 	private PersonalInfoManager infoManager;
@@ -35,7 +37,7 @@ public class PersonalListFragment extends ListFragment {
 		setListAdapter(new ArrayAdapter<DataItem>(this.getActivity(), 
 				android.R.layout.simple_list_item_activated_1, 
 				infoManager.getData()));
-	
+		System.out.println(infoManager.getData().size()); 
 	}
 	
 	@Override
@@ -67,7 +69,17 @@ public class PersonalListFragment extends ListFragment {
 		switch(item.getItemId())
 		{
 		case R.id.menu_personal_add:
-			Toast.makeText(this.getActivity(), "ADD", Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(getActivity(), NewDetail.class);
+			startActivityForResult(intent, ADD_REQUEST_CODE);
+			return true;
+		case R.id.menu_personal_delete:
+			DataItem target = (DataItem) getListAdapter().getItem(activeIndex);
+			infoManager.removeDataItem(target);
+			ArrayAdapter<DataItem> adapter = (ArrayAdapter<DataItem>) this.getListAdapter();
+			adapter.remove(target);
+			PersonalDetailFragment fragment = (PersonalDetailFragment) 
+					getActivity().getFragmentManager().findFragmentByTag(LogIt.ID_PERSONALDETAIL);
+			getActivity().getFragmentManager().beginTransaction().hide(fragment).commit();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);		
@@ -100,19 +112,29 @@ public class PersonalListFragment extends ListFragment {
     @Override
 	public void onResume()
     {
-    	//exerciseManager.signalResume(); TODO
+    	infoManager.signalResume(); 
     	super.onResume();
     }
     
     @Override
 	public void onPause()
     {
-    	//exerciseManager.signalPause(); TODO
+    	infoManager.signalPause();
     	super.onPause();
     }
     
-//    @Override
-//    public void onActivityResult (int requestCode, int resultCode, Intent data) TODO
+    @Override
+    public void onActivityResult (int requestCode, int resultCode, Intent data)
+    {
+    	infoManager.signalResume();
+    	if(resultCode == Activity.RESULT_OK && requestCode == ADD_REQUEST_CODE)
+    	{
+    		String dtName = data.getStringExtra(NewDetail.RETURN_NAME);
+    		String dtDesc = data.getStringExtra(NewDetail.RETURN_DESC);
+    		infoManager.addNewDataItem(dtName, dtDesc);
+    	}
+    	super.onActivityResult(requestCode, resultCode, data);
+    }
     
     
 	

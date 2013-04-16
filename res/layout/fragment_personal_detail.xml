@@ -25,7 +25,21 @@
     	android:layout_marginTop="3dp"
     	android:layout_marginBottom="3dp"     
     />
-    <!-- swipelist TODO -->
+   
+	<com.fortysevendeg.android.swipelistview.SwipeListView
+    	xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    	android:id="@+id/personalMetricList"
+        android:listSelector="#00000000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        swipe:swipeFrontView="@+id/front"
+        swipe:swipeBackView="@+id/back"
+        swipe:swipeActionLeft="reveal"
+        swipe:swipeActionRight="dismiss"
+        swipe:swipeMode="both"
+        swipe:swipeCloseAllItemsWhenMoveList="true"
+        swipe:swipeOpenOnLongPress="true"        
+    />  
     
     <View 
         android:id="@+id/detailPersonalSBar"

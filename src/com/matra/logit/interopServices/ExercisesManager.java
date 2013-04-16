@@ -115,7 +115,7 @@ public class ExercisesManager {
 		}
 		
 	}
-	//TODO handle date
+	
 	public void updateMetric(long metricID, int newValue)
 	{
 		if(metricID != -1)

@@ -97,7 +97,6 @@ public class ExerciseListFragment extends ListFragment{
 	    		startActivityForResult(intent, ADD_REQUEST_CODE);
 	    		return true;
 	    	case R.id.menu_delete :
-	    		//Toast.makeText(this.getActivity(), "DEL at " + activeIndex, Toast.LENGTH_SHORT).show();
 	    		Exercise target = (Exercise) getListAdapter().getItem(activeIndex);
 	    		exerciseManager.removeExercise(target);
 	    		//Remove from UI list
@@ -149,8 +148,6 @@ public class ExerciseListFragment extends ListFragment{
     		//2. Add to database
     		//System.out.println(exName + "  " + exDesc);
     		Exercise newEx = exerciseManager.addNewExercise(exName, exDesc);
-    		//3. Update adapter with name is ran on the OnCreate Method
-
 
     	}
 

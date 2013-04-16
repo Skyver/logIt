@@ -34,10 +34,16 @@
         </activity>
         <activity
             android:name=".UpdateMetric"
-            android:label="@string/title_activity_update_metric" 
+            android:label="@string/title_activity_update_metric"
             android:parentActivityName="com.matra.LogIt"
             android:theme="@android:style/Theme.Holo.Light.Dialog" >
-
+        </activity>
+        <activity
+            android:name=".NewDetail"
+            android:label="@string/title_activity_new_detail" 
+            android:parentActivityName="com.matra.LogIt"
+            android:theme="@android:style/Theme.Holo.Light.Dialog" >
+            
         </activity>
     </application>
 

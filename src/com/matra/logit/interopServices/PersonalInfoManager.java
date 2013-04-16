@@ -1,9 +1,11 @@
 package com.matra.logit.interopServices;
 
+import java.security.acl.Owner;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.matra.logit.storage.DataItem;
+import com.matra.logit.storage.Metric;
 import com.matra.logit.storage.PersonalDataSource;
 import android.content.Context;
 
@@ -20,10 +22,9 @@ public class PersonalInfoManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		cacheStorage = new ArrayList<DataItem>();
+		cacheStorage = personalDatasource.getAllDataItems();
 	}
 	
-	//TODO change string to class
 	public ArrayList<DataItem> getData()
 	{
 		return cacheStorage;
@@ -37,7 +38,12 @@ public class PersonalInfoManager {
 		long wID = personalDatasource.addDataItem(weightItem);
 		long bmiID = personalDatasource.addDataItem(bmiItem);
 		//--Add metrics here
-		
+		Metric kg = new Metric(wID, "Kilograms", 60);
+		weightItem.addMetric(kg);
+		personalDatasource.addMetricToDataItem(kg);
+		Metric x10BMI = new Metric(bmiID, "BMI X10", 200);
+		bmiItem.addMetric(x10BMI);
+		personalDatasource.addMetricToDataItem(x10BMI);
 		//------
 		cacheStorage = personalDatasource.getAllDataItems();		
 	}
@@ -51,9 +57,60 @@ public class PersonalInfoManager {
 		return item;
 	}
 	
-	// TODO DELETE
+	public void removeDataItem(DataItem item)
+	{
+		cacheStorage.remove(item);
+		personalDatasource.deleteDataItem(item);
+	}
 	
-	// TODO UPDATE
+	public Metric addMetric(String name, int init, long ownerID)
+	{
+		Metric metric = new Metric(ownerID, name, init);
+		long id = personalDatasource.addMetricToDataItem(metric);
+		metric.setId(id);
+		for(DataItem item : cacheStorage)
+		{
+			if(item.getId() == ownerID)
+			{
+				item.addMetric(metric);
+			}
+		}
+		return metric;
+	}
+	
+	public void removeMetric(Metric metric)
+	{
+		personalDatasource.removeMetricFromDataItem(metric);
+		for(DataItem item : cacheStorage)
+		{
+			if(item.getId() == metric.getOwnerId())
+			{
+				item.removeMetric(metric);
+			}
+		}
+	}
+	
+	public void updateMetric(long metricID, int newValue)
+	{
+		if(metricID != -1)
+		{
+			int oldValue = 0;
+			outloop:
+			for(DataItem item: cacheStorage)
+			{
+				for(Metric mt : item.getMetricList())
+				{
+					if(mt.getId() == metricID)
+					{
+						oldValue = mt.getValue();
+						break outloop;
+					}
+				}
+			}
+			personalDatasource.updateMetricValue(metricID, newValue, ExercisesManager.getTrend(oldValue, newValue));
+			cacheStorage = personalDatasource.getAllDataItems();
+		}
+	}
 	
 	//signals the bottom layer that the app is on resumed state
 	public void signalResume()
