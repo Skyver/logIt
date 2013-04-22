@@ -4,17 +4,13 @@
     android:layout_height="match_parent" 
     android:orientation="horizontal">
 
-    <RelativeLayout 
+    <RelativeLayout
+        android:id="@+id/listContainer" 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="59.8">
         
-        <fragment 
-            android:name="com.matra.logit.ExerciseListFragment"
-            android:id="@+id/exerciseList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+
         
     </RelativeLayout>
     
