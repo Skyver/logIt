@@ -69,7 +69,7 @@
             style="@style/ListTitle" 
        	/>
         
-        <TextView
+        <ImageView
             android:id="@+id/metricTrend"
             android:layout_height="match_parent"
             android:layout_width="0px"

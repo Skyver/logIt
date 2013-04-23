@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -189,7 +190,7 @@ public class PersonalDetailFragment extends Fragment {
 				holder = new ViewHolder();
 				holder.tvName = (TextView) convertView.findViewById(R.id.metricTitle);
 				holder.tvValue = (TextView) convertView.findViewById(R.id.metricValue);
-				holder.tvTrend = (TextView) convertView.findViewById(R.id.metricTrend);
+				holder.tvTrend = (ImageView) convertView.findViewById(R.id.metricTrend);
 				holder.bUpdate = (Button) convertView.findViewById(R.id.buttonUpdateMetric);
 				holder.bDelete = (Button) convertView.findViewById(R.id.buttonDeleteMetric);
 				convertView.setTag(holder);
@@ -200,7 +201,15 @@ public class PersonalDetailFragment extends Fragment {
 			}
 			holder.tvName.setText(metric.getName());
 			holder.tvValue.setText(String.valueOf(metric.getValue()));
-			holder.tvTrend.setText(metric.getTrend()); //TODO icon instead
+			if(metric.getTrend().equals(Metric.TREND_UP))
+			{
+				holder.tvTrend.setImageResource(R.drawable.up_icon);
+			}
+			else if(metric.getTrend().equals(Metric.TREND_DOWN))
+			{
+				holder.tvTrend.setImageResource(R.drawable.down_icon);
+			}
+			
 			
 			holder.bUpdate.setOnClickListener( new View.OnClickListener() {
 				@Override
@@ -228,7 +237,7 @@ public class PersonalDetailFragment extends Fragment {
 	{
 		TextView tvName;
 		TextView tvValue;
-		TextView tvTrend;
+		ImageView tvTrend;
 		Button bUpdate;
 		Button bDelete;
 		
