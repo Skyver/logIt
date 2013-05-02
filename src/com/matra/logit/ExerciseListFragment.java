@@ -1,6 +1,8 @@
 package com.matra.logit;
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -49,6 +51,11 @@ public class ExerciseListFragment extends ListFragment{
     {
     	activeIndex = position;
     	Exercise exercise = (Exercise) l.getItemAtPosition(position);
+    	Fragment frg = getActivity().getFragmentManager().findFragmentByTag(LogIt.ID_EXERCISENOTES);
+    	if( frg != null)
+    	{
+    		getActivity().getFragmentManager().beginTransaction().remove(frg).commit();
+    	}    	
     	if(getActivity().getFragmentManager().findFragmentByTag(LogIt.ID_EXERCISEDETAIL) == null)
     	{
     		ExerciseDetailFragment fragment = new ExerciseDetailFragment();
@@ -63,7 +70,19 @@ public class ExerciseListFragment extends ListFragment{
     																.findFragmentByTag(LogIt.ID_EXERCISEDETAIL);
     		fragment.setDisplayedExercise(exercise);
     		fragment.setExerciseManager(exerciseManager);
-    		getActivity().getFragmentManager().beginTransaction().show(fragment).commit();
+    		getActivity().getFragmentManager().popBackStackImmediate();
+    		if(fragment.isRemoving())
+    		{
+    			getActivity().getFragmentManager().beginTransaction().add(fragment, LogIt.ID_EXERCISEDETAIL).show(fragment).commit();
+    		}
+    		else
+    		{
+    			getActivity().getFragmentManager().beginTransaction().show(fragment).commit();
+    		}
+    		
+    		
+    		
+    		
     	}
     	
     }
@@ -106,7 +125,15 @@ public class ExerciseListFragment extends ListFragment{
 	    		ExerciseDetailFragment fragment = (ExerciseDetailFragment) getActivity().getFragmentManager()
 						.findFragmentByTag(LogIt.ID_EXERCISEDETAIL);
 	    		getActivity().getFragmentManager().beginTransaction().hide(fragment).commit();
-	    		
+	    	case R.id.menu_personal_notes:
+	    		Exercise active = (Exercise) getListAdapter().getItem(activeIndex);
+	    		Toast.makeText(getActivity(), active.getName(), Toast.LENGTH_SHORT).show();
+	    		//TODO start fragment transaction, replace fragment.
+	    		NotesFragment notesFragment = new NotesFragment();
+	    		FragmentTransaction transaction = getFragmentManager().beginTransaction();
+	    		transaction.replace(R.id.containerDetails, notesFragment, LogIt.ID_EXERCISENOTES);
+	    		transaction.addToBackStack(null);
+	    		transaction.commit();
 	    		
 	    		return true;
 	    	default :

@@ -6,5 +6,13 @@
     	  android:title="Delete"
     	  android:showAsAction="always|withText" 
     />
+    
+    <item android:id="@+id/menu_personal_notes"
+          android:icon="@drawable/content_notes"
+          android:title="Notes"
+          android:showAsAction="always|withText"
+        
+    />
+    
 
 </menu>

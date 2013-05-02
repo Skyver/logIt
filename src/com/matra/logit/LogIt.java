@@ -15,6 +15,7 @@ public class LogIt extends Activity{
 	public static final String ID_EXERCISELIST = "EXERCISELIST";
 	public static final String ID_EXERCISEDETAIL = "EXERCISEDETAIL";
 	public static final String ID_PERSONALDETAIL = "PERSONALDETAIL";
+	public static final String ID_EXERCISENOTES = "NOTESFRAG";
 	
 	public static final String TAG_EXERCISES = "EXERCISES";
 	public static final String TAG_PERSONAL = "PERSONAL";

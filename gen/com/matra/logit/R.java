@@ -125,45 +125,47 @@ containing a value of this type.
         public static final int content_discard=0x7f020001;
         public static final int content_new=0x7f020002;
         public static final int content_new_dark=0x7f020003;
-        public static final int down_icon=0x7f020004;
-        public static final int ic_action_search=0x7f020005;
-        public static final int ic_launcher=0x7f020006;
-        public static final int up_icon=0x7f020007;
+        public static final int content_notes=0x7f020004;
+        public static final int down_icon=0x7f020005;
+        public static final int ic_action_search=0x7f020006;
+        public static final int ic_launcher=0x7f020007;
+        public static final int up_icon=0x7f020008;
     }
     public static final class id {
         public static final int back=0x7f040017;
         public static final int both=0x7f040001;
-        public static final int buttonDeleteMetric=0x7f040021;
-        public static final int buttonUpdateMetric=0x7f04001f;
+        public static final int buttonDeleteMetric=0x7f040020;
+        public static final int buttonUpdateMetric=0x7f04001e;
         public static final int button_submit=0x7f04000d;
         public static final int containerDetails=0x7f040007;
-        public static final int detailButtonMetric=0x7f040019;
+        public static final int detailButtonMetric=0x7f040018;
         public static final int detailDescription=0x7f040014;
         public static final int detailMetricList=0x7f040015;
-        public static final int detailPersonalSBar=0x7f04001d;
-        public static final int detailSeparatorBar=0x7f040018;
         public static final int detailTitle=0x7f040013;
         public static final int detail_button_submit=0x7f04000a;
         public static final int detail_textfield_desc=0x7f040009;
         public static final int detail_textfield_name=0x7f040008;
         public static final int dismiss=0x7f040005;
-        public static final int dividerBar=0x7f040020;
+        public static final int dividerBar=0x7f04001f;
         public static final int front=0x7f040016;
         public static final int left=0x7f040003;
         public static final int listContainer=0x7f040006;
         public static final int menu_add=0x7f040027;
-        public static final int menu_delete=0x7f040026;
-        public static final int menu_personal_add=0x7f040029;
-        public static final int menu_personal_delete=0x7f040028;
-        public static final int menu_settings=0x7f040025;
-        public static final int metricTitle=0x7f040022;
-        public static final int metricTrend=0x7f040024;
-        public static final int metricValue=0x7f040023;
+        public static final int menu_delete=0x7f040025;
+        public static final int menu_notes_add=0x7f040028;
+        public static final int menu_personal_add=0x7f04002a;
+        public static final int menu_personal_delete=0x7f040029;
+        public static final int menu_personal_notes=0x7f040026;
+        public static final int menu_settings=0x7f040024;
+        public static final int metricTitle=0x7f040021;
+        public static final int metricTrend=0x7f040023;
+        public static final int metricValue=0x7f040022;
         public static final int newmetric_button_add=0x7f040010;
         public static final int newmetric_name=0x7f04000e;
         public static final int newmetric_value=0x7f04000f;
         public static final int none=0x7f040000;
-        public static final int personalDetailButtonMetric=0x7f04001e;
+        public static final int notesTitle=0x7f040019;
+        public static final int personalDetailButtonMetric=0x7f04001d;
         public static final int personalDetailDesc=0x7f04001b;
         public static final int personalDetailTitle=0x7f04001a;
         public static final int personalMetricList=0x7f04001c;
@@ -181,8 +183,9 @@ containing a value of this type.
         public static final int activity_new_metric=0x7f030003;
         public static final int activity_update_metric=0x7f030004;
         public static final int fragment_exercise_detail=0x7f030005;
-        public static final int fragment_personal_detail=0x7f030006;
-        public static final int metric_view_normal=0x7f030007;
+        public static final int fragment_notes=0x7f030006;
+        public static final int fragment_personal_detail=0x7f030007;
+        public static final int metric_view_normal=0x7f030008;
     }
     public static final class menu {
         public static final int activity_log_it=0x7f090000;
@@ -192,8 +195,9 @@ containing a value of this type.
         public static final int activity_update_metric=0x7f090004;
         public static final int exercise_detail_menu=0x7f090005;
         public static final int exercise_list_menu=0x7f090006;
-        public static final int personal_detail_menu=0x7f090007;
-        public static final int personal_list_menu=0x7f090008;
+        public static final int notes_menu=0x7f090007;
+        public static final int personal_detail_menu=0x7f090008;
+        public static final int personal_list_menu=0x7f090009;
     }
     public static final class string {
         public static final int app_name=0x7f070000;
@@ -214,6 +218,7 @@ containing a value of this type.
         public static final int title_activity_new_exercise=0x7f070004;
         public static final int title_activity_new_metric=0x7f07000a;
         public static final int title_activity_update_metric=0x7f07000f;
+        public static final int title_notes=0x7f070012;
     }
     public static final class style {
         public static final int AppTheme=0x7f080009;

@@ -8,6 +8,9 @@
         android:id="@+id/back"
         android:orientation="horizontal" 
         android:tag="back"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+
         style="@style/ListBackContent"
     	>
        
@@ -47,6 +50,8 @@
         android:id="@+id/front"
         android:orientation="horizontal" 
         android:tag="front"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         style="@style/ListFrontContent"
         >
         

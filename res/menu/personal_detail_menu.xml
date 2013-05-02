@@ -6,5 +6,5 @@
     	  android:title="Delete"
     	  android:showAsAction="always|withText" 
     />
-
+    
 </menu>

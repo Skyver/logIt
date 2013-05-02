@@ -18,5 +18,6 @@
     <string name="title_activity_update_metric">UpdateMetric</string>
     <string name="button_mt_update">Update</string>
     <string name="title_activity_new_detail">New Detail</string>
+    <string name="title_notes">Notes</string>
 
 </resources>
