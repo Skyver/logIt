@@ -54,7 +54,7 @@ public class ExerciseListFragment extends ListFragment{
     	Fragment frg = getActivity().getFragmentManager().findFragmentByTag(LogIt.ID_EXERCISENOTES);
     	if( frg != null)
     	{
-    		getActivity().getFragmentManager().beginTransaction().remove(frg).commit();
+    		getActivity().getFragmentManager().beginTransaction().setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right).remove(frg).commit();
     	}    	
     	if(getActivity().getFragmentManager().findFragmentByTag(LogIt.ID_EXERCISEDETAIL) == null)
     	{
@@ -71,13 +71,15 @@ public class ExerciseListFragment extends ListFragment{
     		fragment.setDisplayedExercise(exercise);
     		fragment.setExerciseManager(exerciseManager);
     		getActivity().getFragmentManager().popBackStackImmediate();
+    		FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+    		transaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
     		if(fragment.isRemoving())
     		{
-    			getActivity().getFragmentManager().beginTransaction().add(fragment, LogIt.ID_EXERCISEDETAIL).show(fragment).commit();
+    			transaction.add(fragment, LogIt.ID_EXERCISEDETAIL).show(fragment).commit();
     		}
     		else
     		{
-    			getActivity().getFragmentManager().beginTransaction().show(fragment).commit();
+    			transaction.show(fragment).commit();
     		}
     		
     		
@@ -130,7 +132,9 @@ public class ExerciseListFragment extends ListFragment{
 	    		Toast.makeText(getActivity(), active.getName(), Toast.LENGTH_SHORT).show();
 	    		//TODO start fragment transaction, replace fragment.
 	    		NotesFragment notesFragment = new NotesFragment();
+	    		notesFragment.setNotesOwner(active);
 	    		FragmentTransaction transaction = getFragmentManager().beginTransaction();
+	    		transaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
 	    		transaction.replace(R.id.containerDetails, notesFragment, LogIt.ID_EXERCISENOTES);
 	    		transaction.addToBackStack(null);
 	    		transaction.commit();
