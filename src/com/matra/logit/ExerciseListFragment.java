@@ -129,8 +129,7 @@ public class ExerciseListFragment extends ListFragment{
 	    		getActivity().getFragmentManager().beginTransaction().hide(fragment).commit();
 	    	case R.id.menu_personal_notes:
 	    		Exercise active = (Exercise) getListAdapter().getItem(activeIndex);
-	    		Toast.makeText(getActivity(), active.getName(), Toast.LENGTH_SHORT).show();
-	    		//TODO start fragment transaction, replace fragment.
+	    		//Toast.makeText(getActivity(), String.valueOf(active.getId()), Toast.LENGTH_LONG).show();
 	    		NotesFragment notesFragment = new NotesFragment();
 	    		notesFragment.setNotesOwner(active);
 	    		FragmentTransaction transaction = getFragmentManager().beginTransaction();

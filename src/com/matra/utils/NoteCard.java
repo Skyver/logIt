@@ -12,14 +12,16 @@ import android.widget.TextView;
 
 import com.fima.cardsui.objects.Card;
 import com.matra.logit.R;
+import com.matra.logit.storage.ExerciseNote;
 
 public class NoteCard extends Card {
 	
-	public static final String HOLO_DARK_RED = "#FFCC0000";
+	private long noteId;
 	
-	public NoteCard(String title, String content, String color)
+	public NoteCard(long id, String title, String content, String color)
 	{
-		super(title, content, color, HOLO_DARK_RED, true, true);
+		super(title, content, color, ExerciseNote.HOLO_DARK_RED, true, false);
+		setNoteId(id);
 	}
 	
 	@Override
@@ -45,5 +47,13 @@ public class NoteCard extends Card {
 					.setVisibility(View.GONE);
 		
 		return v;
+	}
+
+	public long getNoteId() {
+		return noteId;
+	}
+
+	public void setNoteId(long noteId) {
+		this.noteId = noteId;
 	}
 }

@@ -329,6 +329,8 @@ containing a value of this type.
         public static final int buttonUpdateMetric=0x7f080027;
         public static final int button_submit=0x7f08000d;
         public static final int cardContent=0x7f080024;
+        public static final int card_delete=0x7f080036;
+        public static final int card_edit=0x7f080035;
         public static final int containerDetails=0x7f080007;
         public static final int detailButtonMetric=0x7f08001c;
         public static final int detailDescription=0x7f080018;
@@ -345,9 +347,9 @@ containing a value of this type.
         public static final int listView=0x7f080013;
         public static final int menu_add=0x7f080034;
         public static final int menu_delete=0x7f080032;
-        public static final int menu_notes_add=0x7f080035;
-        public static final int menu_personal_add=0x7f080037;
-        public static final int menu_personal_delete=0x7f080036;
+        public static final int menu_notes_add=0x7f080037;
+        public static final int menu_personal_add=0x7f080039;
+        public static final int menu_personal_delete=0x7f080038;
         public static final int menu_personal_notes=0x7f080033;
         public static final int menu_settings=0x7f080031;
         public static final int metricTitle=0x7f08002a;
@@ -407,9 +409,10 @@ containing a value of this type.
         public static final int activity_update_metric=0x7f0a0004;
         public static final int exercise_detail_menu=0x7f0a0005;
         public static final int exercise_list_menu=0x7f0a0006;
-        public static final int notes_menu=0x7f0a0007;
-        public static final int personal_detail_menu=0x7f0a0008;
-        public static final int personal_list_menu=0x7f0a0009;
+        public static final int note_overflow_menu=0x7f0a0007;
+        public static final int notes_menu=0x7f0a0008;
+        public static final int personal_detail_menu=0x7f0a0009;
+        public static final int personal_list_menu=0x7f0a000a;
     }
     public static final class string {
         public static final int app_name=0x7f090000;
