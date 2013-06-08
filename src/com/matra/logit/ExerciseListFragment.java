@@ -1,6 +1,7 @@
 package com.matra.logit;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
@@ -18,8 +19,10 @@ import android.widget.Toast;
 
 import com.matra.logit.interopServices.ExercisesManager;
 import com.matra.logit.storage.Exercise;
+import com.matra.utils.ConfirmDialog;
+import com.matra.utils.ConfirmDialog.ConfirmDialogListener;
 
-public class ExerciseListFragment extends ListFragment{
+public class ExerciseListFragment extends ListFragment implements ConfirmDialogListener{
 	
 	public static final String PREFS_NAME = "SETTINGS";
 	public static final String FIRST_TIME = "FIRST_TIME";
@@ -118,16 +121,12 @@ public class ExerciseListFragment extends ListFragment{
 	    		startActivityForResult(intent, ADD_REQUEST_CODE);
 	    		return true;
 	    	case R.id.menu_delete :
-	    		Exercise target = (Exercise) getListAdapter().getItem(activeIndex);
-	    		exerciseManager.removeExercise(target);
-	    		//Remove from UI list
-	    		ArrayAdapter<Exercise> adapter = (ArrayAdapter<Exercise>) this.getListAdapter();
-	    		adapter.remove(target);
-	    		//Hide fragment for cleanliness and better UX
-	    		ExerciseDetailFragment fragment = (ExerciseDetailFragment) getActivity().getFragmentManager()
-						.findFragmentByTag(LogIt.ID_EXERCISEDETAIL);
-	    		getActivity().getFragmentManager().beginTransaction().hide(fragment).commit();
+	    		ConfirmDialog dialog = new ConfirmDialog();
+	    		dialog.setTargetFragment(this, 0);
+	    		dialog.show(getFragmentManager(), "confirm_delete");
+	    		return true;
 	    	case R.id.menu_personal_notes:
+	    		
 	    		Exercise active = (Exercise) getListAdapter().getItem(activeIndex);
 	    		//Toast.makeText(getActivity(), String.valueOf(active.getId()), Toast.LENGTH_LONG).show();
 	    		NotesFragment notesFragment = new NotesFragment();
@@ -142,6 +141,19 @@ public class ExerciseListFragment extends ListFragment{
 	    	default :
 	    		return super.onOptionsItemSelected(item);
     	}
+    }
+    
+    private void deleteExercise()
+    {
+    	Exercise target = (Exercise) getListAdapter().getItem(activeIndex);
+		exerciseManager.removeExercise(target);
+		//Remove from UI list
+		ArrayAdapter<Exercise> adapter = (ArrayAdapter<Exercise>) this.getListAdapter();
+		adapter.remove(target);
+		//Hide fragment for cleanliness and better UX
+		ExerciseDetailFragment fragment = (ExerciseDetailFragment) getActivity().getFragmentManager()
+				.findFragmentByTag(LogIt.ID_EXERCISEDETAIL);
+		getActivity().getFragmentManager().beginTransaction().hide(fragment).commit();
     }
     
     @Override
@@ -183,5 +195,17 @@ public class ExerciseListFragment extends ListFragment{
 
     	super.onActivityResult(requestCode, resultCode, data);
     }
+    
+    @Override
+    public void onDialogPositive(DialogFragment dialog)
+    {
+    	deleteExercise();
+    	//Display toast TODO
+    }
+    
+    @Override
+    public void onDialogNegative(DialogFragment dialog){}
+    
+    
 	
 }

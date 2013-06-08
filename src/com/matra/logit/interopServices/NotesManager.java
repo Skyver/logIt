@@ -11,6 +11,7 @@ public class NotesManager {
 	
 	public NotesManager()
 	{
+		//TODO Lower layer fetch
 		notesList = new ArrayList<ExerciseNote>();
 		notesList.add(new ExerciseNote(1, "Note about Dogs", "Lorez Ipzum Dolorrz et sun sit amet valamint", ExerciseNote.HOLO_DARK_BLUE, 12));
 		notesList.add(new ExerciseNote(2, "Note about Cats", "Lorez Ipzum Dolorrz et sun sit amet valamint", ExerciseNote.HOLO_DARK_GREEN, 12));
@@ -47,9 +48,23 @@ public class NotesManager {
 			if(note.getId() == id)
 			{
 				it.remove();
+				//TODO Lower layer delete
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	public void addNote(String title, String desc, String color,long owner)
+	{
+		long id = 0;
+		if(!notesList.isEmpty())
+		{
+			id = notesList.get(notesList.size()-1).getId() + 1;
+		}
+		
+		notesList.add(new ExerciseNote(id, title, desc, color, owner));
+		//TODO Lower layer add
+	
 	}
 }
